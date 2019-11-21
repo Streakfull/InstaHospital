@@ -1,0 +1,53 @@
+/* eslint-disable no-console */
+// import libraries
+const express = require('express');
+const cors = require('cors');
+const morgan = require('morgan');
+const errorHandler = require('./middleware/ErrorHandler');
+require('dotenv').config();
+
+// DB
+const sequelize = require('./DB');
+
+// Models SHOULD BE DELETED AFTER ROUTES.
+// require('./models/account.model');
+// require('./models/user.model');
+// require('./models/booking.model');
+// require('./models/condition.model');
+// require('./models/hospital.model');
+// require('./models/hospitalNotifications.model');
+// require('./models/notification.model');
+// require('./models/review.model');
+// require('./models/userNotifications.model.');
+// require('./models/userConditions.model');
+
+const app = express();
+
+// init middleware
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+app.use(cors());
+app.use(morgan('dev'));
+
+// DB Connection
+sequelize
+  .authenticate()
+  .then(() => {
+    console.log('Connected to postgres');
+  })
+  .catch(err => {
+    console.error('Unable to connect to postgres ', err);
+  });
+// Routes here
+app.use(errorHandler);
+
+// DB Sync
+const eraseDatabaseOnSync = true;
+sequelize
+  .sync({ force: eraseDatabaseOnSync })
+  .then(() => console.log('Synced models with database'))
+  .catch(error => console.log('Could not sync models with database', error));
+
+const port = process.env.PORT || 3000;
+
+app.listen(port, () => console.log(`Server up and running on ${port}.`));
