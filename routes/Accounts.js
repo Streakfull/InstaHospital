@@ -6,7 +6,10 @@ const {
   signUp,
   login,
   changePassword,
-  deleteAccount
+  deleteAccount,
+  sendMail,
+  recovery,
+  forgetPassword
 } = require('../controllers/Accounts.controller');
 
 const router = express.Router();
@@ -25,6 +28,16 @@ router.delete(
   '/deleteAccount',
   passport.authenticate('jwt', { session: false }),
   deleteAccount
+);
+
+router.post('/sendEmail', wrap(sendMail));
+
+router.post('/recovery', wrap(recovery));
+
+router.post(
+  '/forgotPassword',
+  passport.authenticate('jwt', { session: false }),
+  wrap(forgetPassword)
 );
 
 module.exports = router;

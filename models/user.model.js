@@ -11,7 +11,8 @@ User.init(
   {
     accountID: {
       type: Sequelize.INTEGER,
-      notNull: true
+      notNull: true,
+      primaryKey: true
     },
     name: {
       type: Sequelize.STRING
@@ -39,10 +40,6 @@ User.init(
     },
     surgicalHistory: {
       type: Sequelize.STRING
-    },
-    accountID: {
-      type: Sequelize.INTEGER,
-      primaryKey: true
     },
 
     age: {
