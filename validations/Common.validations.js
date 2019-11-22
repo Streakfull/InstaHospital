@@ -7,4 +7,11 @@ const viewValidation = request => {
   return Joi.validate(request, schema);
 };
 
-module.exports = { viewValidation };
+const idValidation = (request, param = 'id') => {
+  const schema = {
+    [param]: Joi.number().required()
+  };
+  return Joi.validate(request, schema);
+};
+
+module.exports = { viewValidation, idValidation };

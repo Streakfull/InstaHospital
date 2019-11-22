@@ -8,6 +8,14 @@ class Review extends Model {}
 
 Review.init(
   {
+    userID: {
+      type: Sequelize.INTEGER,
+      primaryKey: true
+    },
+    hospitalID: {
+      type: Sequelize.INTEGER,
+      primaryKey: true
+    },
     rating: {
       type: Sequelize.DOUBLE
     },

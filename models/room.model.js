@@ -13,7 +13,8 @@ Room.init(
       type: Sequelize.STRING
     },
     roomStatus: {
-      type: Sequelize.ENUM(ROOM_STATUS.ENUM)
+      type: Sequelize.ENUM(ROOM_STATUS.ENUM),
+      defaultValue: ROOM_STATUS.AVAILABLE
     }
   },
   {
