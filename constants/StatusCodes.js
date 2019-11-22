@@ -53,6 +53,11 @@ const statusCodes = {
     code: '0008',
     message: 'Wrong recovery code,Please try again',
     httpCode: 400
+  },
+  alreadySubscribed: {
+    code: '0009',
+    message: 'This device is already subscribed',
+    httpCode: 400
   }
 };
 

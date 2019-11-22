@@ -17,10 +17,16 @@ Notification.init(
       type: Sequelize.BOOLEAN,
       defaultValue: false
     },
-    text: {
+    body: {
       type: Sequelize.STRING
     },
     img: {
+      type: Sequelize.STRING
+    },
+    title: {
+      type: Sequelize.STRING
+    },
+    link: {
       type: Sequelize.STRING
     }
   },

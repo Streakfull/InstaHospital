@@ -14,6 +14,8 @@ const {
   viewValidation,
   idValidation
 } = require('../validations/Common.validations');
+const { notify } = require('../utils/Notify');
+const { userReview } = require('../constants/notifications');
 
 const viewHospitalReviews = async (req, res) => {
   const { error } = idValidation(req.params, 'hospitalID');
@@ -57,6 +59,8 @@ const createReview = async (req, res) => {
   await checkHospital(req, res);
   req.body.userID = req.user.accountID;
   const review = await Review.create(req.body);
+  const user = await Account.findByPk(req.user.accountID);
+  notify([review.hospitalID], userReview(user.img));
   return send(review, res);
 };
 

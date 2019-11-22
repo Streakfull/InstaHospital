@@ -4,17 +4,20 @@ const {
   editValidation
 } = require('../validations/Bookings.validation');
 const {
-  BOOKING_STATUS: { PENDING },
+  BOOKING_STATUS: { PENDING, CONFIRMED },
   ROLES: { HOSPITAL }
 } = require('../constants/enums');
 const Booking = require('../models/booking.model');
 const Account = require('../models/account.model');
+const User = require('../models/user.model');
 
 const { validation, entityNotFound } = require('../constants/StatusCodes');
 const {
   viewValidation,
   idValidation
 } = require('../validations/Common.validations');
+const { notify } = require('../utils/Notify');
+const { userBooking, bookingConfirmed } = require('../constants/notifications');
 
 const viewHospitalBookings = async (req, res) => {
   const { error } = idValidation(req.params, 'hospitalID');
@@ -71,7 +74,7 @@ const checkHospital = async (req, res) => {
     where: { id: hospitalID, role: HOSPITAL }
   });
   if (!hospitalCheck) return sendError(res, entityNotFound);
-  return null;
+  return hospitalCheck;
 };
 
 const checkBooking = async (id, res) => {
@@ -87,6 +90,8 @@ const createBooking = async (req, res) => {
   req.body.userID = req.user.accountID;
   req.body.status = PENDING;
   const booking = await Booking.create(req.body);
+  const user = await User.findOne({ where: { accountID: req.user.accountID } });
+  notify([req.body.hospitalID], userBooking(user.name));
   return send(booking, res);
 };
 
@@ -96,11 +101,18 @@ const editBooking = async (req, res) => {
   const { id } = req.body;
   await checkBooking(id, res);
   delete req.body.id;
-  const booking = await Booking.update(req.body, {
+  const result = await Booking.update(req.body, {
     where: { id },
     returning: true
   });
-  return send(booking[1][0], res);
+  const booking = result[1][0];
+  if (req.body.status === CONFIRMED) {
+    const hospital = await checkHospital({
+      body: { hospitalID: booking.hospitalID }
+    });
+    notify([booking.userID], bookingConfirmed(booking.id, hospital.img));
+  }
+  return send(booking, res);
 };
 
 const deleteBooking = async (req, res) => {

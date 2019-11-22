@@ -24,6 +24,11 @@ const User = require('../models/user.model');
 const Hospital = require('../models/hospital.model');
 const Recovery = require('../models/recovery.model');
 const { setEmail, sendEmail } = require('../services/SendGrid');
+const { notify } = require('../utils/Notify');
+const {
+  signUpNotification,
+  passwordRecovered
+} = require('../constants/notifications');
 
 const signUp = async (req, res) => {
   const { error } = signupValidation(req.body);
@@ -46,6 +51,7 @@ const signUp = async (req, res) => {
     await Hospital.create({
       accountID: account.id
     });
+  notify([account.id], signUpNotification);
   return send(account, res);
 };
 
@@ -131,7 +137,11 @@ const forgetPassword = async (req, res) => {
   if (password !== passwordConfirm) return sendError(res, nonMatchingPasswords);
   const { email } = req.user;
   const hashedPassword = bcrypt.hashSync(password, bcrypt.genSaltSync(10));
-  await Account.update({ password: hashedPassword }, { where: { email } });
+  const user = await Account.update(
+    { password: hashedPassword },
+    { where: { email }, returning: true }
+  );
+  notify([user.id], passwordRecovered);
   return send('ok', res);
 };
 

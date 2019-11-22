@@ -19,6 +19,7 @@ const Rooms = require('./routes/Rooms');
 const Reviews = require('./routes/Reviews');
 const Bookings = require('./routes/Bookings');
 const Notifications = require('./routes/Notifications');
+const Subscribers = require('./routes/Subscribers');
 
 // Models SHOULD BE DELETED AFTER ROUTES.
 // require('./models/account.model');
@@ -58,8 +59,9 @@ app.use('/api/users', Users);
 app.use('/api/hospitals', Hospitals);
 app.use('/api/rooms', Rooms);
 app.use('/api/reviews', Reviews);
+app.use('/api/notifications', Notifications);
+app.use('/api/subscribers', Subscribers);
 app.use('/api/bookings', Bookings);
-app.use('/api/Notifications', Notifications);
 
 app.use(errorHandler);
 
