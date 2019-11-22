@@ -26,6 +26,7 @@ const notify = async (accountIDs, data) => {
   accountIDs.forEach(async account => {
     accountPromises.push(Account.findByPk(account));
     const { actionTitle, ...notification } = data;
+    notification.accountID = account;
     await createNotification(notification);
   });
   accountPromises = await Promise.all(accountPromises);
