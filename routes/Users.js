@@ -10,6 +10,8 @@ const {
   removeCondition,
   getUserConditions
 } = require('../controllers/Users.controller');
+const checkRole = require('../middleware/CheckRole');
+const { ROLES } = require('../constants/enums');
 
 const router = express.Router();
 
@@ -20,18 +22,21 @@ router.get('/:id', wrap(viewProfile));
 router.put(
   '/edit',
   passport.authenticate('jwt', { session: false }),
+  checkRole([ROLES.USER]),
   wrap(editProfileUser)
 );
 
 router.put(
   '/addConditions',
   passport.authenticate('jwt', { session: false }),
+  checkRole([ROLES.USER]),
   wrap(addConditions)
 );
 
 router.delete(
   '/removeCondition/:conditionID',
   passport.authenticate('jwt', { session: false }),
+  checkRole([ROLES.USER]),
   wrap(removeCondition)
 );
 

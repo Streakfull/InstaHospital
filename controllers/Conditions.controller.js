@@ -10,7 +10,6 @@ const viewAll = async (req, res) => {
 };
 
 const create = async (req, res) => {
-  if (req.user.role !== ROLES.ADMIN) return sendError(res, unauthorized);
   const { error } = createValidation(req.body);
   if (error) return sendError(res, validation, error.details[0].message);
   const { name, abbreviation } = req.body;
