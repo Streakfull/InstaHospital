@@ -1,24 +1,40 @@
 const Sequelize = require('sequelize');
 const db = require('../DB');
-const User = require('./user.model');
+const Account = require('./account.model');
 const Condition = require('./condition.model');
 
 const { Model } = Sequelize;
 
 class UserCondition extends Model {}
 
-UserCondition.init({}, { sequelize: db, timestamps: false });
+UserCondition.init(
+  {
+    userID: {
+      type: 'int',
+      primaryKey: true
+    },
+    conditionID: {
+      type: 'int',
+      primaryKey: true
+    }
+  },
+  { sequelize: db, timestamps: false }
+);
 
-UserCondition.belongsTo(User, {
+UserCondition.belongsTo(Account, {
   foreignKey: 'userID',
   targetKey: 'id',
-  onDelete: 'cascade'
+  onDelete: 'cascade',
+  primaryKey: true
 });
 
 UserCondition.belongsTo(Condition, {
   foreignKey: 'conditionID',
   targetKey: 'id',
-  onDelete: 'cascade'
+  onDelete: 'cascade',
+  primaryKey: true
 });
+
+UserCondition.removeAttribute('id');
 
 module.exports = UserCondition;

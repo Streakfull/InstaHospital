@@ -1,8 +1,9 @@
-const { send } = require('../utils/send');
+const { sendError } = require('../utils/send');
 
 const errorHandler = (err, req, res, next) => {
   if (!err) return next();
-  return send.sendError(res);
+  console.log(err, 'ERROR');
+  return sendError(res, { message: err }, err);
 };
 
 module.exports = errorHandler;

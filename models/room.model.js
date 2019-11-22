@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize');
 const db = require('../DB');
-const Hospital = require('./hospital.model');
+const Account = require('./account.model');
 const { ROOM_STATUS } = require('../constants/enums');
 
 const { Model } = Sequelize;
@@ -22,7 +22,7 @@ Room.init(
   }
 );
 
-Room.belongsTo(Hospital, {
+Room.belongsTo(Account, {
   foreignKey: 'hospitalID',
   targetKey: 'id',
   onDelete: 'cascade'
