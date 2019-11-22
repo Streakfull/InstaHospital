@@ -14,6 +14,8 @@ const sequelize = require('./DB');
 const Accounts = require('./routes/Accounts');
 const Conditions = require('./routes/Conditions');
 const Users = require('./routes/Users');
+const Hospitals = require('./routes/Hospitals');
+const Rooms = require('./routes/Rooms');
 
 // Models SHOULD BE DELETED AFTER ROUTES.
 // require('./models/account.model');
@@ -50,6 +52,8 @@ sequelize
 app.use('/api/accounts', Accounts);
 app.use('/api/conditions', Conditions);
 app.use('/api/users', Users);
+app.use('/api/hospitals', Hospitals);
+app.use('/api/rooms', Rooms);
 
 app.use(errorHandler);
 

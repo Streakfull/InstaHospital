@@ -38,6 +38,11 @@ const statusCodes = {
     code: '0005',
     message: 'Old password is incorrect',
     httpCode: 400
+  },
+  entityNotFound: {
+    code: '0006',
+    message: 'The entity you are looking for is not found',
+    httpCode: 400
   }
 };
 
