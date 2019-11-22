@@ -36,9 +36,17 @@ const sendEmail = (request, req, res) => {
   });
 };
 
+const sendDirectEmail = request => {
+  transporter.sendMail(request, (error, info) => {
+    if (error) console.log(error);
+    else console.log(info.response);
+  });
+};
+
 const setNotificationMail = (emails, data) => {
   let email = notificationMail.replace('notificationTitle', data.title);
   email = email.replace('notificationBody', data.body);
+  email = email.replace('LINKR', `LinkHere/${data.link}`);
   email = email.replace('LINKR', `LinkHere/${data.link}`);
   const requests = emails.map(userEmail => ({
     from: 'notification@instaHospital.com',
@@ -49,4 +57,4 @@ const setNotificationMail = (emails, data) => {
   return requests;
 };
 
-module.exports = { setEmail, sendEmail, setNotificationMail };
+module.exports = { setEmail, sendEmail, setNotificationMail, sendDirectEmail };

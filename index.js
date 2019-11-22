@@ -58,8 +58,8 @@ app.use('/api/users', Users);
 app.use('/api/hospitals', Hospitals);
 app.use('/api/rooms', Rooms);
 app.use('/api/reviews', Reviews);
-app.use('/api/Notifications', Notifications);
-app.use('/api/Subscribers', Subscribers);
+app.use('/api/notifications', Notifications);
+app.use('/api/subscribers', Subscribers);
 
 app.use(errorHandler);
 

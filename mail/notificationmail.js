@@ -257,7 +257,7 @@ const notificationMail =
   '              >' +
   '                <p style="margin: 0;">' +
   '                  Cheers,<br />' +
-  '                LirtenHub' +
+  '                InstaHospital' +
   '                </p>' +
   '              </td>' +
   '            </tr>' +

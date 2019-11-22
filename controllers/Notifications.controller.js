@@ -3,11 +3,6 @@ const Notification = require('../models/notification.model');
 const { idValidation } = require('../validations/Common.validations');
 const { validation } = require('../constants/StatusCodes');
 
-const createNotification = async (accountID, text, img) => {
-  const notification = await Notification.create({ accountID, text, img });
-  return notification;
-};
-
 const viewUserNotifications = async (req, res) => {
   const { accountID } = req.user;
   const notifications = await Notification.findAll({ where: { accountID } });
@@ -39,7 +34,6 @@ const markAsRead = async (req, res) => {
 };
 
 module.exports = {
-  createNotification,
   viewUserNotifications,
   deleteNotification,
   deleteAll,
