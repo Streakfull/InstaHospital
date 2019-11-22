@@ -14,6 +14,7 @@ const headers = {
 };
 
 const sendNotification = async (tokens, data) => {
+  if (tokens.length === 0) return;
   const sent = await axios({
     method: 'post',
     url: 'https://fcm.googleapis.com/fcm/send',
@@ -24,6 +25,7 @@ const sendNotification = async (tokens, data) => {
     },
     headers
   });
+  // eslint-disable-next-line consistent-return
   return sent;
 };
 
