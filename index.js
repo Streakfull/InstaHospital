@@ -17,6 +17,7 @@ const Users = require('./routes/Users');
 const Hospitals = require('./routes/Hospitals');
 const Rooms = require('./routes/Rooms');
 const Reviews = require('./routes/Reviews');
+const Bookings = require('./routes/Bookings');
 const Notifications = require('./routes/Notifications');
 const Subscribers = require('./routes/Subscribers');
 
@@ -60,6 +61,7 @@ app.use('/api/rooms', Rooms);
 app.use('/api/reviews', Reviews);
 app.use('/api/notifications', Notifications);
 app.use('/api/subscribers', Subscribers);
+app.use('/api/bookings', Bookings);
 
 app.use(errorHandler);
 
