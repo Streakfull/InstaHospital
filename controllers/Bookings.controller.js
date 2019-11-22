@@ -1,0 +1,124 @@
+const { send, sendError } = require('../utils/send');
+const {
+  createValidation,
+  editValidation
+} = require('../validations/Bookings.validation');
+const {
+  BOOKING_STATUS: { PENDING },
+  ROLES: { HOSPITAL }
+} = require('../constants/enums');
+const Booking = require('../models/booking.model');
+const Account = require('../models/account.model');
+
+const { validation, entityNotFound } = require('../constants/StatusCodes');
+const {
+  viewValidation,
+  idValidation
+} = require('../validations/Common.validations');
+
+const viewHospitalBookings = async (req, res) => {
+  const { error } = idValidation(req.params, 'hospitalID');
+  if (error) return sendError(res, validation, error.details[0].message);
+  const { error: paginationError } = viewValidation(req.body);
+  if (paginationError)
+    return sendError(res, validation, paginationError.details[0].message);
+  const { page = 0, perPage = 10 } = req.body;
+  const { hospitalID } = req.params;
+  const { count, rows } = await Booking.findAndCountAll(
+    {
+      where: { hospitalID }
+    },
+    {
+      offset: parseInt(page) * perPage,
+      limit: parseInt(perPage)
+    }
+  );
+  const lastPage = Math.ceil(count / parseInt(perPage)) - 1;
+  return send({ bookings: rows, meta: { totalEntries: count, lastPage } }, res);
+};
+
+const viewUserBookings = async (req, res) => {
+  const { error } = idValidation(req.params, 'userID');
+  if (error) return sendError(res, validation, error.details[0].message);
+  const { error: paginationError } = viewValidation(req.body);
+  if (paginationError)
+    return sendError(res, validation, paginationError.details[0].message);
+  const { page = 0, perPage = 10 } = req.body;
+  const { userID } = req.params;
+  const { count, rows } = await Booking.findAndCountAll(
+    {
+      where: { userID }
+    },
+    {
+      offset: parseInt(page) * perPage,
+      limit: parseInt(perPage)
+    }
+  );
+  const lastPage = Math.ceil(count / parseInt(perPage)) - 1;
+  return send({ bookings: rows, meta: { totalEntries: count, lastPage } }, res);
+};
+
+const viewBooking = async (req, res) => {
+  const { error } = idValidation(req.params);
+  if (error) return sendError(res, validation, error.details[0].message);
+  const booking = await Booking.findByPk(req.params.id);
+  return send(booking, res);
+};
+
+const checkHospital = async (req, res) => {
+  const { hospitalID } = req.body;
+  const hospitalCheck = await Account.findOne({
+    where: { id: hospitalID, role: HOSPITAL }
+  });
+  if (!hospitalCheck) return sendError(res, entityNotFound);
+  return null;
+};
+
+const checkBooking = async (id, res) => {
+  const booking = await Booking.findByPk(id);
+  if (!booking) return sendError(res, entityNotFound);
+  return null;
+};
+
+const createBooking = async (req, res) => {
+  const { error } = createValidation(req.body);
+  if (error) return sendError(res, validation, error.details[0].message);
+  await checkHospital(req, res);
+  req.body.userID = req.user.accountID;
+  req.body.status = PENDING;
+  const booking = await Booking.create(req.body);
+  return send(booking, res);
+};
+
+const editBooking = async (req, res) => {
+  const { error } = editValidation(req.body);
+  if (error) return sendError(res, validation, error.details[0].message);
+  const { id } = req.body;
+  await checkBooking(id, res);
+  delete req.body.id;
+  const booking = await Booking.update(req.body, {
+    where: { id },
+    returning: true
+  });
+  return send(booking[1][0], res);
+};
+
+const deleteBooking = async (req, res) => {
+  const { error } = idValidation(req.params);
+  if (error) return sendError(res, validation, error.details[0].message);
+  const { id } = req.params;
+  await checkBooking(id, res);
+  await Booking.destroy({
+    where: { id, userID: req.user.accountID }
+  });
+  return send('ok', res);
+};
+
+module.exports = {
+  viewUserBookings,
+  viewHospitalBookings,
+  viewBooking,
+  createBooking,
+  editBooking,
+  deleteBooking
+};

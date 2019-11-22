@@ -14,7 +14,7 @@ Booking.init(
       notNull: true
     },
     hospitalID: {
-      tpye: Sequelize.INTEGER,
+      type: Sequelize.INTEGER,
       notNull: true
     },
     status: {
