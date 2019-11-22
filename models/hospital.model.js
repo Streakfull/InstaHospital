@@ -25,6 +25,10 @@ Hospital.init(
     },
     phoneNumber: {
       type: Sequelize.STRING
+    },
+    accountID: {
+      type: Sequelize.INTEGER,
+      primaryKey: true
     }
   },
   {
@@ -38,5 +42,7 @@ Hospital.belongsTo(Account, {
   targetKey: 'id',
   onDelete: 'cascade'
 });
+
+Hospital.removeAttribute('id');
 
 module.exports = Hospital;

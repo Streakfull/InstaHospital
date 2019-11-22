@@ -36,6 +36,10 @@ User.init(
     surgicalHistory: {
       type: Sequelize.STRING
     },
+    accountID: {
+      type: Sequelize.INTEGER,
+      primaryKey: true
+    },
 
     age: {
       type: Sequelize.VIRTUAL,
@@ -57,5 +61,6 @@ User.belongsTo(Account, {
   targetKey: 'id',
   onDelete: 'cascade'
 });
+User.removeAttribute('id');
 
 module.exports = User;
