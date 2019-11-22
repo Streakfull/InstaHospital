@@ -14,7 +14,8 @@ Notification.init(
       notNull: true
     },
     isRead: {
-      type: Sequelize.BOOLEAN
+      type: Sequelize.BOOLEAN,
+      defaultValue: false
     },
     text: {
       type: Sequelize.STRING
