@@ -4,19 +4,26 @@ const { send, sendError } = require('../utils/send');
 const {
   signupValidation,
   loginValidation,
-  changePasswordValidation
+  changePasswordValidation,
+  sendEmailValidation,
+  recoverValidation,
+  forgotPasswordValidation
 } = require('../validations/Accounts.validation');
 const {
   validation,
   emailExists,
   wrongCredentials,
   nonMatchingPasswords,
-  wrongPassword
+  wrongPassword,
+  entityNotFound,
+  wrongRecoveryCode
 } = require('../constants/StatusCodes');
 const { ROLES } = require('../constants/enums');
 const Account = require('../models/account.model');
 const User = require('../models/user.model');
 const Hospital = require('../models/hospital.model');
+const Recovery = require('../models/recovery.model');
+const { setEmail, sendEmail } = require('../services/SendGrid');
 
 const signUp = async (req, res) => {
   const { error } = signupValidation(req.body);
@@ -84,9 +91,56 @@ const deleteAccount = async (req, res) => {
   return send('ok', res);
 };
 
+// eslint-disable-next-line consistent-return
+const sendMail = async (req, res) => {
+  const { error: validationError } = sendEmailValidation(req.body);
+  if (validationError)
+    return sendError(res, validation, validationError.details[0].message);
+  const { email } = req.body;
+  const account = Account.findOne({ where: { email } });
+  if (!account) return sendError(res, entityNotFound);
+  const { request, randomCode } = setEmail(email);
+  const salt = bcrypt.genSaltSync(10);
+  const hashedCode = bcrypt.hashSync(randomCode, salt);
+  const recoverd = await Recovery.findByPk(email);
+  if (recoverd)
+    await Recovery.update({ code: hashedCode }, { where: { email } });
+  else await Recovery.create({ code: hashedCode, email });
+  await sendEmail(request, req, res);
+};
+
+const recovery = async (req, res) => {
+  const { error } = recoverValidation(req.body);
+  if (error) return sendError(res, validation, error.details[0].message);
+  const { email, code } = req.body;
+  const recoverd = await Recovery.findByPk(email);
+  if (!recoverd) return sendError(res, entityNotFound);
+  const match = bcrypt.compareSync(code, recoverd.code);
+  if (!match) return sendError(res, wrongRecoveryCode);
+  const tokenPayload = {
+    email
+  };
+  const response = jwt.sign(tokenPayload, process.env.TOKEN_KEY);
+  return send(response, res);
+};
+
+const forgetPassword = async (req, res) => {
+  const { error } = forgotPasswordValidation(req.body);
+  if (error) return sendError(res, validation, error.details[0].message);
+  const { password, passwordConfirm } = req.body;
+  if (password !== passwordConfirm) return sendError(res, nonMatchingPasswords);
+  const { email } = req.user;
+  const hashedPassword = bcrypt.hashSync(password, bcrypt.genSaltSync(10));
+  await Account.update({ password: hashedPassword }, { where: { email } });
+  return send('ok', res);
+};
+
 module.exports = {
   signUp,
   login,
   changePassword,
-  deleteAccount
+  deleteAccount,
+  sendMail,
+  recovery,
+  forgetPassword
 };

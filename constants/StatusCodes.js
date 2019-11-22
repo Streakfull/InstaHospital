@@ -43,6 +43,16 @@ const statusCodes = {
     code: '0006',
     message: 'The entity you are looking for is not found',
     httpCode: 400
+  },
+  emailNotSent: {
+    code: '0007',
+    message: 'Email not sent,Please check your internet connection',
+    httpCode: 400
+  },
+  wrongRecoveryCode: {
+    code: '0008',
+    message: 'Wrong recovery code,Please try again',
+    httpCode: 400
   }
 };
 
