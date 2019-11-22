@@ -1,5 +1,6 @@
 const nodemailer = require('nodemailer');
 const Email = require('../mail/forgetPassword');
+const notificationMail = require('../mail/notificationmail');
 const { send, sendError } = require('../utils/send');
 const { emailNotSent } = require('../constants/StatusCodes');
 
@@ -35,4 +36,17 @@ const sendEmail = (request, req, res) => {
   });
 };
 
-module.exports = { setEmail, sendEmail };
+const setNotificationMail = (emails, data) => {
+  let email = notificationMail.replace('notificationTitle', data.title);
+  email = email.replace('notificationBody', data.body);
+  email = email.replace('LINKR', `LinkHere/${data.link}`);
+  const requests = emails.map(userEmail => ({
+    from: 'notification@instaHospital.com',
+    to: userEmail,
+    subject: 'InstaHospital Notification',
+    html: email
+  }));
+  return requests;
+};
+
+module.exports = { setEmail, sendEmail, setNotificationMail };
