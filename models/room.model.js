@@ -9,6 +9,10 @@ class Room extends Model {}
 
 Room.init(
   {
+    hospitalID: {
+      type: Sequelize.INTEGER,
+      notNull: true
+    },
     roomNumber: {
       type: Sequelize.STRING
     },

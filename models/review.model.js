@@ -10,11 +10,11 @@ Review.init(
   {
     userID: {
       type: Sequelize.INTEGER,
-      primaryKey: true
+      notNull: true
     },
     hospitalID: {
       type: Sequelize.INTEGER,
-      primaryKey: true
+      notNull: true
     },
     rating: {
       type: Sequelize.DOUBLE
