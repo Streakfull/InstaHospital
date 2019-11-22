@@ -9,6 +9,14 @@ class Booking extends Model {}
 
 Booking.init(
   {
+    userID: {
+      type: Sequelize.INTEGER,
+      notNull: true
+    },
+    hospitalID: {
+      tpye: Sequelize.INTEGER,
+      notNull: true
+    },
     status: {
       type: Sequelize.ENUM(BOOKING_STATUS.ENUM),
       defaultValue: BOOKING_STATUS.PENDING

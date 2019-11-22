@@ -9,6 +9,10 @@ class Notification extends Model {}
 
 Notification.init(
   {
+    accountID: {
+      type: Sequelize.INTEGER,
+      notNull: true
+    },
     isRead: {
       type: Sequelize.BOOLEAN
     },

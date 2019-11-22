@@ -16,6 +16,7 @@ const Conditions = require('./routes/Conditions');
 const Users = require('./routes/Users');
 const Hospitals = require('./routes/Hospitals');
 const Rooms = require('./routes/Rooms');
+const Reviews = require('./routes/Reviews');
 
 // Models SHOULD BE DELETED AFTER ROUTES.
 // require('./models/account.model');
@@ -54,6 +55,7 @@ app.use('/api/conditions', Conditions);
 app.use('/api/users', Users);
 app.use('/api/hospitals', Hospitals);
 app.use('/api/rooms', Rooms);
+app.use('/api/reviews', Reviews);
 
 app.use(errorHandler);
 

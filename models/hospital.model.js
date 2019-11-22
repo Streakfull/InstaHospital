@@ -8,6 +8,10 @@ class Hospital extends Model {}
 
 Hospital.init(
   {
+    accountID: {
+      type: Sequelize.INTEGER,
+      notNull: true
+    },
     name: {
       type: Sequelize.STRING
     },
