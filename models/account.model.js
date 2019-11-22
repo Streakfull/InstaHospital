@@ -18,8 +18,12 @@ Account.init(
     },
     role: {
       type: Sequelize.ENUM(ROLES.ENUM)
+    },
+    img: {
+      type: Sequelize.STRING
     }
   },
+
   {
     sequelize: db
   }

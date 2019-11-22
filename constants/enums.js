@@ -1,7 +1,7 @@
 const ROLES = {
   USER: 'user',
   HOSPITAL: 'hospital',
-  AMBULANCE: 'ambulance'
+  ADMIN: 'admin'
 };
 ROLES.ENUM = Object.values(ROLES);
 const GENDERS = {

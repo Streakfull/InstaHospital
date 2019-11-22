@@ -3,11 +3,17 @@
 const express = require('express');
 const cors = require('cors');
 const morgan = require('morgan');
+const passport = require('passport');
 const errorHandler = require('./middleware/ErrorHandler');
 require('dotenv').config();
 
 // DB
 const sequelize = require('./DB');
+
+// Importing routes
+const Accounts = require('./routes/Accounts');
+const Conditions = require('./routes/Conditions');
+const Users = require('./routes/Users');
 
 // Models SHOULD BE DELETED AFTER ROUTES.
 // require('./models/account.model');
@@ -28,6 +34,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cors());
 app.use(morgan('dev'));
+app.use(passport.initialize());
+require('./middleware/Passport')(passport);
 
 // DB Connection
 sequelize
@@ -39,10 +47,14 @@ sequelize
     console.error('Unable to connect to postgres ', err);
   });
 // Routes here
+app.use('/api/accounts', Accounts);
+app.use('/api/conditions', Conditions);
+app.use('/api/users', Users);
+
 app.use(errorHandler);
 
 // DB Sync
-const eraseDatabaseOnSync = true;
+const eraseDatabaseOnSync = false;
 sequelize
   .sync({ force: eraseDatabaseOnSync })
   .then(() => console.log('Synced models with database'))

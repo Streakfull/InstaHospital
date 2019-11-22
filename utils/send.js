@@ -1,23 +1,22 @@
 const moment = require('moment');
-const { succuss, unknown } = require('../constants/StatusCodes');
+const StatusCodes = require('../constants/StatusCodes');
+
+const { unknown, succuss } = StatusCodes;
 // defining the message to be sent in all catches
 
-const sendError = (
-  res,
-  statusCode = unknown.statusCode,
-  error = unknown.message,
-  status = 500
-) => {
+const sendError = (res, statusCode = unknown, error) => {
   res.set({
-    statusCode,
+    statusCode: statusCode.code,
     timestamp: moment().format()
   });
-  return res.status(status).send({ error });
+  const sentError = statusCode.message || error || unknown.message;
+  const status = statusCode.httpCode || 500;
+  return res.status(status).send({ error: sentError });
 };
 
-const send = (data, request, res) => {
+const send = (data, res) => {
   res.set({
-    statusCode: succuss.statusCode,
+    statusCode: succuss.code,
     timestamp: moment().format()
   });
   return res.json({ data });

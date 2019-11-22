@@ -12,7 +12,7 @@ User.init(
     name: {
       type: Sequelize.STRING
     },
-    birth_date: {
+    birthDate: {
       type: Sequelize.DATE
     },
     weight: {
@@ -35,6 +35,15 @@ User.init(
     },
     surgicalHistory: {
       type: Sequelize.STRING
+    },
+
+    age: {
+      type: Sequelize.VIRTUAL,
+      get() {
+        const birthDate = this.getDataValue('birthDate');
+        if (!birthDate) return null;
+        return new Date().getFullYear() - new Date(birthDate).getFullYear();
+      }
     }
   },
   {

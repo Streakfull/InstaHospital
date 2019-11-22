@@ -3,28 +3,31 @@ const wrap = require('express-async-wrapper');
 const passport = require('passport');
 
 const {
-  signUp,
-  login,
-  changePassword,
-  deleteAccount
-} = require('../controllers/Accounts.controller');
+  create,
+  update,
+  deleteCondition,
+  viewAll
+} = require('../controllers/Conditions.controller');
 
 const router = express.Router();
 
-router.post('/signup', wrap(signUp));
+router.get('/', wrap(viewAll));
 
-router.post('/login', wrap(login));
-
-router.put(
-  '/changePassword',
+router.post(
+  '/create',
   passport.authenticate('jwt', { session: false }),
-  wrap(changePassword)
+  wrap(create)
+);
+router.post(
+  '/update/:id',
+  passport.authenticate('jwt', { session: false }),
+  wrap(update)
 );
 
 router.delete(
-  '/deleteAccount',
+  '/delete/:id',
   passport.authenticate('jwt', { session: false }),
-  deleteAccount
+  wrap(deleteCondition)
 );
 
 module.exports = router;

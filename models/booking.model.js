@@ -1,7 +1,6 @@
 const Sequelize = require('sequelize');
 const db = require('../DB');
-const User = require('./user.model');
-const Hospital = require('./hospital.model');
+const Account = require('./account.model');
 const { BOOKING_STATUS } = require('../constants/enums');
 
 const { Model } = Sequelize;
@@ -33,13 +32,13 @@ Booking.init(
   }
 );
 
-Booking.belongsTo(User, {
+Booking.belongsTo(Account, {
   foreignKey: 'userID',
   targetKey: 'id',
   onDelete: 'cascade'
 });
 
-Booking.belongsTo(Hospital, {
+Booking.belongsTo(Account, {
   foreignKey: 'hospitalID',
   targetKey: 'id',
   onDelete: 'cascade'

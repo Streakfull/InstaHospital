@@ -1,7 +1,6 @@
 const Sequelize = require('sequelize');
 const db = require('../DB');
-const User = require('./user.model');
-const Hospital = require('./hospital.model');
+const Account = require('./account.model');
 
 const { Model } = Sequelize;
 
@@ -22,13 +21,13 @@ Review.init(
   }
 );
 
-Review.belongsTo(User, {
+Review.belongsTo(Account, {
   foreignKey: 'userID',
   targetKey: 'id',
   onDelete: 'cascade'
 });
 
-Review.belongsTo(Hospital, {
+Review.belongsTo(Account, {
   foreignKey: 'hospitalID',
   targetKey: 'id',
   onDelete: 'cascade'

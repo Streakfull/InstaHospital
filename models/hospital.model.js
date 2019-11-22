@@ -1,5 +1,6 @@
 const Sequelize = require('sequelize');
 const db = require('../DB');
+const Account = require('./account.model');
 
 const { Model } = Sequelize;
 
@@ -21,6 +22,9 @@ Hospital.init(
     },
     address: {
       type: Sequelize.STRING
+    },
+    phoneNumber: {
+      type: Sequelize.STRING
     }
   },
   {
@@ -28,5 +32,11 @@ Hospital.init(
     timestamps: false
   }
 );
+
+Hospital.belongsTo(Account, {
+  foreignKey: 'accountID',
+  targetKey: 'id',
+  onDelete: 'cascade'
+});
 
 module.exports = Hospital;
