@@ -7,6 +7,7 @@ import authReducer from './reducers/authReducer.js';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
+import 'semantic-ui-css/semantic.min.css';
 
 const store = createStore(authReducer);
 

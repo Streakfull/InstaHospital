@@ -31,13 +31,23 @@
   align-items: center;
 }
 
-.homepage-background div {
+.homepage-background-text {
   width: 50%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   color: white;
+}
+
+.homepage-background form {
+  width: 30%;
+  background: #fff;
+  box-shadow: 0 1px 2px 0 rgba(34, 36, 38, 0.15);
+  border-radius: 0.28571429rem;
+  border: 1px solid rgba(34, 36, 38, 0.15);
+  padding: 20px;
+  margin: auto;
 }
 
 .homepage-background h1 {
@@ -49,4 +59,33 @@
 .homepage-background h3 {
   font-size: 25px;
   text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+}
+
+@media screen and (max-width: 1023px) {
+  .homepage-background {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  .homepage-background-text {
+    width: 70%;
+  }
+  .homepage-background form {
+    width: 50%;
+    margin: 40px;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .homepage-background h1 {
+    font-size: 40px;
+  }
+
+  .homepage-background h3 {
+    font-size: 15px;
+  }
+
+  .homepage-background form {
+    width: 70%;
+  }
 }

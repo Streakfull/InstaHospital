@@ -1,4 +1,4 @@
-export const logIn = userInfo => ({
+export const logIn = auth => ({
   type: 'LOG_IN',
   auth
 });
