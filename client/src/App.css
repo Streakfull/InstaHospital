@@ -20,3 +20,33 @@
 .App-link {
   color: #09d3ac;
 }
+
+.homepage-background {
+  width: 100vw;
+  height: 100vh;
+  background-image: url('https://mnhealthycommunities.org/wp-content/uploads/2017/02/iStock-619636894.jpg');
+  background-position: center;
+  background-size: cover;
+  display: flex;
+  align-items: center;
+}
+
+.homepage-background div {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: white;
+}
+
+.homepage-background h1 {
+  margin: 0;
+  font-size: 80px;
+  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+}
+
+.homepage-background h3 {
+  font-size: 25px;
+  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+}
