@@ -36,15 +36,18 @@ const deleteData = (url = ``, data = {}) =>
     }
   });
 
-export const post = (urlInput, req) => {
+export const post = async (urlInput, req) => {
   const url = `${path}${urlInput}`;
-  return postData(url, req);
+  const response = await postData(url, req);
+  return response.data.data;
 };
-export const del = (urlInput, req) => {
+export const del = async (urlInput, req) => {
   const url = `${path}${urlInput}`;
-  return deleteData(url, req);
+  const response = await deleteData(url, req);
+  return response.data.data;
 };
-export const put = (urlInput, req) => {
+export const put = async (urlInput, req) => {
   const url = `${path}${urlInput}`;
-  return putData(url, req);
+  const response = await putData(url, req);
+  return response.data.data;
 };

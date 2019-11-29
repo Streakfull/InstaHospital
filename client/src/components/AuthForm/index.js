@@ -1,5 +1,5 @@
 import React, { Fragment, useState } from 'react';
-import { Button, Form, Radio, Menu, Message } from 'semantic-ui-react';
+import { Button, Form, Radio, Menu, Message, Input } from 'semantic-ui-react';
 import { post } from '../../services/axios';
 import { useDispatch } from 'react-redux';
 import { logIn } from '../../actions/authActions';
@@ -14,67 +14,77 @@ const AuthForm = () => {
   const dispatch = useDispatch();
 
   const onSubmit = () => {
+    if (!role && tab === 'signup') {
+      setError('Please select a role');
+      return;
+    }
     setLoading(true);
     setError(false);
     tab === 'signup'
       ? post('accounts/signup', { email, password, role })
-          .then(response => post('accounts/login', { email, password }))
+          .then(() => post('accounts/login', { email, password }))
           .then(response => {
-            dispatch(logIn(response.data.data));
+            console.log(response, 'LOG');
+            dispatch(logIn(response));
             setLoading(false);
-            localStorage.setItem('auth', JSON.stringify(response.data.data));
+            localStorage.setItem('auth', JSON.stringify(response));
           })
           .catch(error => {
             setLoading(false);
-            setError(true);
+            setError(error.response.data.error);
           })
       : post('accounts/login', { email, password })
           .then(response => {
-            dispatch(logIn(response.data.data));
+            dispatch(logIn(response));
             setLoading(false);
-            localStorage.setItem('auth', JSON.stringify(response.data.data));
+            localStorage.setItem('auth', JSON.stringify(response));
           })
           .catch(error => {
             setLoading(false);
-            setError(true);
+            setError(error.response.data.error);
           });
   };
 
+  const changeTab = () => {
+    setError(false);
+    if (tab === 'signup') {
+      setTab('login');
+    } else setTab('signup');
+  };
   return (
     <Form error={error}>
       <Menu pointing secondary>
         <Menu.Item
           name="Sign Up"
           active={tab === 'signup'}
-          onClick={() => setTab('signup')}
+          onClick={changeTab}
         />
-        <Menu.Item
-          name="Log In"
-          active={tab === 'login'}
-          onClick={() => setTab('login')}
-        />
+        <Menu.Item name="Log In" active={tab === 'login'} onClick={changeTab} />
       </Menu>
-      <Message error header="Something went wrong" />
-      <Form.Field>
+      <Message error header={error} />
+      <Form.Field required>
         <label>Email</label>
-        <input
+        <Input
           placeholder="Email"
           value={email}
           onChange={event => setEmail(event.target.value)}
+          type="email"
+          icon="mail"
         />
       </Form.Field>
-      <Form.Field>
+      <Form.Field required>
         <label>Password</label>
-        <input
+        <Input
           placeholder="Password"
           type="password"
           value={password}
           onChange={event => setPassword(event.target.value)}
+          icon="lock"
         />
       </Form.Field>
       {tab === 'signup' && (
         <Fragment>
-          <Form.Field>
+          <Form.Field required>
             <b>Role</b>
           </Form.Field>
           <Form.Field>

@@ -11,6 +11,8 @@ const reducer = (state = initialState, action) => {
     case 'LOG_OUT':
       newState.auth = {};
       break;
+    default:
+      break;
   }
   return newState;
 };
