@@ -9,6 +9,7 @@ require('dotenv').config();
 
 // DB
 const sequelize = require('./DB');
+const populate = require('./development/populate');
 
 // Importing routes
 const Accounts = require('./routes/Accounts');
@@ -66,10 +67,13 @@ app.use('/api/bookings', Bookings);
 app.use(errorHandler);
 
 // DB Sync
-const eraseDatabaseOnSync = false;
+const eraseDatabaseOnSync = true;
 sequelize
   .sync({ force: eraseDatabaseOnSync })
-  .then(() => console.log('Synced models with database'))
+  .then(() => {
+    populate();
+    console.log('Synced models with database');
+  })
   .catch(error => console.log('Could not sync models with database', error));
 
 const port = process.env.PORT || 3000;
