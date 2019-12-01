@@ -24,14 +24,13 @@ const AuthForm = () => {
       ? post('accounts/signup', { email, password, role })
           .then(() => post('accounts/login', { email, password }))
           .then(response => {
-            console.log(response, 'LOG');
             dispatch(logIn(response));
             setLoading(false);
             localStorage.setItem('auth', JSON.stringify(response));
           })
           .catch(error => {
             setLoading(false);
-            setError(error.response.data.error);
+            setError(error.message);
           })
       : post('accounts/login', { email, password })
           .then(response => {
@@ -41,7 +40,7 @@ const AuthForm = () => {
           })
           .catch(error => {
             setLoading(false);
-            setError(error.response.data.error);
+            setError(error.message);
           });
   };
 
