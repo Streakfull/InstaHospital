@@ -4,7 +4,8 @@ const passport = require('passport');
 const {
   viewAll,
   viewProfile,
-  editProfile
+  editProfile,
+  searchHospitals
 } = require('../controllers/Hospital.controller');
 const checkRole = require('../middleware/CheckRole');
 const {
@@ -23,5 +24,7 @@ router.put(
   checkRole([HOSPITAL]),
   wrap(editProfile)
 );
+
+router.post('/searchHospitals', wrap(searchHospitals));
 
 module.exports = router;

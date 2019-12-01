@@ -12,4 +12,13 @@ const editValidation = request => {
   return Joi.validate(request, schema);
 };
 
-module.exports = { editValidation };
+const searchValidation = request => {
+  const schema = {
+    query: Joi.string(),
+    lng: Joi.number(),
+    lat: Joi.number()
+  };
+  return Joi.validate(request, schema);
+};
+
+module.exports = { editValidation, searchValidation };

@@ -1,9 +1,13 @@
 const { send, sendError } = require('../utils/send');
-const { editValidation } = require('../validations/Hospitals.validation');
+const {
+  editValidation,
+  searchValidation
+} = require('../validations/Hospitals.validation');
 const { viewValidation } = require('../validations/Common.validations');
 const { validation } = require('../constants/StatusCodes');
 const Hospital = require('../models/hospital.model');
 const Account = require('../models/account.model');
+const { getDistanceMatrix } = require('../services/GoogleMaps');
 
 const viewAll = async (req, res) => {
   const { error } = viewValidation(req.body);
@@ -42,4 +46,40 @@ const editProfile = async (req, res) => {
   return send(hospital[1][0], res);
 };
 
-module.exports = { viewAll, viewProfile, editProfile };
+const filterHospitals = (query, hospitals) =>
+  hospitals.filter(hospital => {
+    const keys = ['name', 'description', 'address', 'phoneNumber'];
+    const queryKeyWords = query.split(' ');
+    let matchFlag = false;
+    keys.forEach(key => {
+      queryKeyWords.forEach(keyword => {
+        const searchKey = keyword.toUpperCase();
+        const hospitalKey = `${hospital[key]}`.toUpperCase();
+        if (hospitalKey.includes(searchKey)) matchFlag = true;
+      });
+    });
+    return matchFlag;
+  });
+
+const searchHospitals = async (req, res) => {
+  const { error } = searchValidation(req.body);
+  if (error) return sendError(res, validation, error.details[0].message);
+  const { query, lng, lat } = req.body;
+  const hospitals = await Hospital.findAll();
+  const filteredHospitals = !query
+    ? hospitals
+    : filterHospitals(query, hospitals);
+  if (!lng && !lat) {
+    return send(filterHospitals, res);
+  }
+  const distances = await getDistanceMatrix({ lng, lat }, hospitals);
+  const nearestHospitals = filteredHospitals.map((hospital, index) => ({
+    hospital: hospital.dataValues,
+    distance: distances[index].distance,
+    duration: distances[index].duration
+  }));
+
+  return send(nearestHospitals, res);
+};
+
+module.exports = { viewAll, viewProfile, editProfile, searchHospitals };
