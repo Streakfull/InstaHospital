@@ -71,7 +71,7 @@ const eraseDatabaseOnSync = true;
 sequelize
   .sync({ force: eraseDatabaseOnSync })
   .then(() => {
-    populate();
+    if (eraseDatabaseOnSync) populate();
     console.log('Synced models with database');
   })
   .catch(error => console.log('Could not sync models with database', error));
