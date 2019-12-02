@@ -39,6 +39,8 @@ const viewProfile = async (req, res) => {
 const editProfile = async (req, res) => {
   const { error } = editValidation(req.body);
   if (error) return sendError(res, validation, error.details[0].message);
+  const { lng, lat } = req.body;
+  if (lng && lat) req.body.isComplete = true;
   const hospital = await Hospital.update(req.body, {
     where: { accountID: req.user.accountID },
     returning: true

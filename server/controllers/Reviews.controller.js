@@ -8,6 +8,7 @@ const {
 } = require('../constants/enums');
 const Review = require('../models/review.model');
 const Account = require('../models/account.model');
+const User = require('../models/user.model');
 
 const { validation, entityNotFound } = require('../constants/StatusCodes');
 const {
@@ -27,8 +28,14 @@ const viewHospitalReviews = async (req, res) => {
   const { hospitalID } = req.params;
   const { count, rows } = await Review.findAndCountAll(
     {
-      where: { hospitalID }
+      include: [
+        { model: Account, as: 'user' },
+        { model: Account, as: 'hospital' }
+      ],
+
+      where: { hospitalId: hospitalID }
     },
+
     {
       offset: parseInt(page, 2) * perPage,
       limit: parseInt(perPage, 2)
@@ -83,7 +90,7 @@ const deleteReview = async (req, res) => {
   const { reviewID } = req.params;
   await checkReview(reviewID, res);
   await Review.destroy({
-    where: { id: reviewID, userID: req.user.accountID }
+    where: { id: reviewID, userId: req.user.accountID }
   });
   return send('ok', res);
 };

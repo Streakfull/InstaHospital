@@ -31,6 +31,7 @@ const DesktopMenu = props => {
     addNotificationCount,
     logOut
   } = props;
+
   return (
     <Menu className="main-menu" borderless fixed="top">
       <Menu.Item>
