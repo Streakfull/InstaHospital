@@ -73,13 +73,20 @@ const searchHospitals = async (req, res) => {
     return send(filterHospitals, res);
   }
   const distances = await getDistanceMatrix({ lng, lat }, hospitals);
-  const nearestHospitals = filteredHospitals.map((hospital, index) => ({
-    hospital: hospital.dataValues,
-    distance: distances[index].distance,
-    duration: distances[index].duration
-  }));
+  const nearestHospitals = filteredHospitals.map((hospital, index) => {
+    if (!distances[index].distance) return;
+    return {
+      hospital: hospital.dataValues,
+      distance: distances[index].distance,
+      duration: distances[index].duration
+    };
+  });
+  const sortedHospitals = nearestHospitals.sort(
+    (hospitalA, hospitalB) =>
+      hospitalA.duration.value - hospitalB.duration.value
+  );
 
-  return send(nearestHospitals, res);
+  return send(sortedHospitals, res);
 };
 
 module.exports = { viewAll, viewProfile, editProfile, searchHospitals };

@@ -1,5 +1,5 @@
 const initialState = {
-  auth: {}
+  auth: false
 };
 
 const reducer = (state = initialState, action) => {
@@ -9,7 +9,7 @@ const reducer = (state = initialState, action) => {
       newState.auth = action.auth;
       break;
     case 'LOG_OUT':
-      newState.auth = {};
+      newState.auth = false;
       break;
     default:
       break;
