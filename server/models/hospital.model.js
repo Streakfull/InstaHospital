@@ -33,6 +33,10 @@ Hospital.init(
     accountID: {
       type: Sequelize.INTEGER,
       primaryKey: true
+    },
+    isComplete: {
+      type: Sequelize.BOOLEAN,
+      defaultValue: false
     }
   },
   {

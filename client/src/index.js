@@ -8,13 +8,16 @@ import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import 'semantic-ui-css/semantic.min.css';
+import Routes from './Routes';
 
 const store = createStore(authReducer);
 
 ReactDOM.render(
   <Provider store={store}>
     <BrowserRouter>
-      <App />
+      <App>
+        <Routes />
+      </App>
     </BrowserRouter>
   </Provider>,
   document.getElementById('root')

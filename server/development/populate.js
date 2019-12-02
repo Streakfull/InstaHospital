@@ -16,7 +16,7 @@ const {
 } = require('../constants/enums');
 
 // Creating 100 accounts
-// 70 users and 30 hospitals
+// 70 users and 25 hospitals
 
 const randomInt = (min, max) =>
   Math.floor(Math.random() * (max - min + 1) + min);
