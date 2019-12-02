@@ -20,7 +20,7 @@ const App = ({ children, ...props }) => {
   const dispatch = useDispatch();
   const [state, setState] = useReducer(appReducer, initialState);
   const userInfo = useSelector(state => state.auth);
-  console.log(userInfo, 'INFO');
+
   //console.log(userInfo, 'AUTH');
   //const userInfo = false;
   useEffect(() => {
@@ -61,7 +61,7 @@ const App = ({ children, ...props }) => {
   };
 
   const logOutApp = () => {
-    localStorage.removeItem('jwtToken');
+    localStorage.removeItem('auth');
     // let { firebaseToken } = this.state;
     // if (this.props.firebaseToken) firebaseToken = this.props.firebaseToken;
     // const { userInfo } = this.props;
@@ -87,7 +87,7 @@ const App = ({ children, ...props }) => {
     firebaseToken
   } = state;
   return (
-    <div>
+    <div className="app-wrapper">
       <Responsive minWidth={Responsive.onlyTablet.minWidth}>
         <DesktopMenu
           notifications={notifications}
@@ -99,7 +99,7 @@ const App = ({ children, ...props }) => {
           logOut={logOutApp}
           redirectProfile={redirectProfile}
         ></DesktopMenu>
-        {children}
+        <div className="app-container">{children}</div>
       </Responsive>
       <Responsive maxWidth={Responsive.onlyMobile.maxWidth}>
         <MobileMenu
@@ -113,7 +113,13 @@ const App = ({ children, ...props }) => {
           logOut={logOutApp}
           redirectProfile={redirectProfile}
         ></MobileMenu>
-        <div onClick={hideSidebar}>{children}</div>
+        <div
+          style={{ minHeight: '80vh' }}
+          className="element app-container"
+          onClick={hideSidebar}
+        >
+          {children}
+        </div>
       </Responsive>
       {props.location.pathname !== '/' && <Footer />}
     </div>

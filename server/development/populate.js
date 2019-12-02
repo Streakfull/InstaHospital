@@ -159,8 +159,8 @@ const createReviews = async () => {
   const hospitals = await Hospital.findAll();
   hospitals.forEach(hospital => {
     Review.create({
-      userID: randomInt(1, 70),
-      hospitalID: hospital.accountID,
+      userId: randomInt(1, 70),
+      hospitalId: hospital.accountID,
       rating: randomInt(1, 5),
       text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit'
     });

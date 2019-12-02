@@ -8,14 +8,6 @@ class Review extends Model {}
 
 Review.init(
   {
-    userID: {
-      type: Sequelize.INTEGER,
-      notNull: true
-    },
-    hospitalID: {
-      type: Sequelize.INTEGER,
-      notNull: true
-    },
     rating: {
       type: Sequelize.DOUBLE
     },
@@ -24,21 +16,24 @@ Review.init(
     }
   },
   {
-    sequelize: db,
-    timestamps: false
+    sequelize: db
   }
 );
 
 Review.belongsTo(Account, {
-  foreignKey: 'userID',
+  as: 'user',
   targetKey: 'id',
-  onDelete: 'cascade'
+  onDelete: 'cascade',
+
+  notNull: true
 });
 
 Review.belongsTo(Account, {
-  foreignKey: 'hospitalID',
+  as: 'hospital',
   targetKey: 'id',
-  onDelete: 'cascade'
+  onDelete: 'cascade',
+
+  notNull: true
 });
 
 module.exports = Review;

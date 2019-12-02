@@ -36,7 +36,7 @@ const MobileMenu = ({
   const closeNotif = () => {
     setNotifOpen(!isNotifOpen);
   };
-  console.log(userInfo, 'USER INFO');
+
   return (
     <div>
       <Menu className="main-menu mobile-menu" borderless fixed="top">

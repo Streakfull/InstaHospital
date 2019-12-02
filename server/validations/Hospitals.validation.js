@@ -7,7 +7,7 @@ const editValidation = request => {
     lng: Joi.number(),
     lat: Joi.number(),
     address: Joi.string(),
-    phoneNumer: Joi.string()
+    phoneNumber: Joi.string()
   };
   return Joi.validate(request, schema);
 };
