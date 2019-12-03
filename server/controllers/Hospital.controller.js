@@ -67,7 +67,9 @@ const searchHospitals = async (req, res) => {
   const { error } = searchValidation(req.body);
   if (error) return sendError(res, validation, error.details[0].message);
   const { query, lng, lat } = req.body;
-  const hospitals = await Hospital.findAll();
+  const hospitals = await Hospital.findAll({
+    include: [{ model: Account, required: true }]
+  });
   const filteredHospitals = !query
     ? hospitals
     : filterHospitals(query, hospitals);
