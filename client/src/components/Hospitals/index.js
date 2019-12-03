@@ -86,7 +86,14 @@ const Hospitals = ({ history }) => {
         pageSubHeader="Find the best nearest hospitals to you"
         data={
           Array.isArray(data)
-            ? data.map(item => item && item.hospital)
+            ? data.map(
+                item =>
+                  item && {
+                    ...item.hospital,
+                    duration: item.duration,
+                    distance: item.distance
+                  }
+              )
             : data.hospitals
         }
         error={error}

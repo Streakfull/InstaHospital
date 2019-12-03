@@ -5,7 +5,16 @@ import Highlightable from '../Highlightable';
 import { useSelector } from 'react-redux';
 
 const ProfileCard = ({
-  data: { accountID, name, description, address, phoneNumber, Account },
+  data: {
+    accountID,
+    name,
+    description,
+    address,
+    phoneNumber,
+    Account,
+    distance,
+    duration
+  },
   searchWords,
   redirect,
   setBookedHospital
@@ -65,6 +74,24 @@ const ProfileCard = ({
             searchWords={searchWords}
           />
         </Card.Header>
+        {distance && (
+          <Card.Header
+            key={distance}
+            className="card-header"
+            textAlign="center"
+          >
+            Distance: {distance.text}
+          </Card.Header>
+        )}
+        {duration && (
+          <Card.Header
+            key={duration}
+            className="card-header"
+            textAlign="center"
+          >
+            Duration: {duration.text}
+          </Card.Header>
+        )}
       </Card.Content>
       {auth.role === 'user' && (
         <Card.Content extra textAlign="center">
