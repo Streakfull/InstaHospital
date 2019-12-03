@@ -111,7 +111,7 @@ const MobileMenu = ({
         <Divider fitted />
         <MobileField
           hideSidebar={hideSidebar}
-          to="/Hospitals"
+          to="/hospitals"
           icon="building outline"
           name="Hospitals"
         />

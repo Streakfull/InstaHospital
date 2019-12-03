@@ -39,7 +39,7 @@ const DesktopMenu = props => {
           Logo Here
         </Link>
       </Menu.Item>
-      <DesktopField to="/Hospitals" icon="building outline" text="Hospitals" />
+      <DesktopField to="/hospitals" icon="building outline" text="Hospitals" />
       <DesktopField to="/Contact" icon="headphones" text="Contact us" />
       <Menu.Item position="right">
         {userInfo ? (
