@@ -111,4 +111,9 @@
 #card {
   margin-left: auto;
   margin-right: auto;
+  min-width: 300px;
+}
+
+.error {
+  color: red !important;
 }

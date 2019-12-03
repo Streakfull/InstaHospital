@@ -8,6 +8,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import ReviewSegment from './FeedBackSegment';
 import UpdatePassModal from '../profiles/UpdatePassModal';
 import RoomSegment from './RoomSegment';
+import BookingSegment from './BookingSegment';
 import { logOut } from '../../actions/authActions';
 import Map from './Map';
 import './maps.css';
@@ -20,6 +21,7 @@ const Profile = props => {
   const [passModal, setPassModal] = useState(false);
   const [segmentLoading, setSegmentLoading] = useState(false);
   const [rooms, setRooms] = useState([]);
+  const [bookings, setBookings] = useState([]);
   const auth = useSelector(state => state.auth);
   const myProfile = `${auth.accountID}` === props.match.params.id;
   const dispatch = useDispatch();
@@ -36,7 +38,11 @@ const Profile = props => {
         const roomsUrl = `rooms/${id}`;
         get(roomsUrl).then(response => {
           setRooms(response.rooms);
-          setLoading(false);
+          const bookingsUrl = `bookings/hospitalBookings/${id}`;
+          get(bookingsUrl).then(response => {
+            setBookings(response.bookings);
+            setLoading(false);
+          });
         });
       });
     });
@@ -168,6 +174,7 @@ const Profile = props => {
             del={deleteReview}
             editReview={editReview}
           />
+          <BookingSegment bookings={bookings} myProfile={myProfile} />
         </Grid.Column>
         <Grid.Column only="mobile" width={14}>
           <BasicInfo
@@ -196,6 +203,7 @@ const Profile = props => {
             del={deleteReview}
             editReview={editReview}
           />
+          <BookingSegment bookings={bookings} myProfile={myProfile} />
         </Grid.Column>
         <Grid.Column only="tablet" width={14}>
           <BasicInfo isTablet={true} hospital={hospital} />
@@ -223,6 +231,7 @@ const Profile = props => {
             del={deleteReview}
             editReview={editReview}
           />
+          <BookingSegment bookings={bookings} myProfile={myProfile} />
         </Grid.Column>
         <Grid.Column only="computer" width={3} />
       </Grid>
