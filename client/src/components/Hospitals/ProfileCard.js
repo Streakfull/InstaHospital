@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
-import { Card, Image } from 'semantic-ui-react';
+import { Card, Image, Button } from 'semantic-ui-react';
 import './hospitals.css';
 import Highlightable from '../Highlightable';
+import { useSelector } from 'react-redux';
 
 const ProfileCard = ({
   data: { accountID, name, description, address, phoneNumber, Account },
   searchWords,
-  redirect
+  redirect,
+  setBookedHospital
 }) => {
   const imageSrc =
     Account &&
@@ -17,6 +19,7 @@ const ProfileCard = ({
       ? Account.img
       : 'https://react.semantic-ui.com/images/wireframe/image.png';
 
+  const auth = useSelector(state => state.auth);
   return (
     <Card onClick={() => redirect(accountID)} className="hvr-grow centered">
       <Image>
@@ -63,6 +66,19 @@ const ProfileCard = ({
           />
         </Card.Header>
       </Card.Content>
+      {auth.role === 'user' && (
+        <Card.Content extra textAlign="center">
+          <Button
+            positive
+            onClick={e => {
+              e.stopPropagation();
+              setBookedHospital(accountID);
+            }}
+          >
+            Book a room
+          </Button>
+        </Card.Content>
+      )}
     </Card>
   );
 };

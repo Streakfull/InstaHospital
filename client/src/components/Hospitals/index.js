@@ -1,6 +1,7 @@
 import React, { Component, useState, useEffect } from 'react';
 import { get, post } from '../../services/axios';
 import Container from './Container.js';
+import BookingModal from './BookingModal';
 import { withRouter } from 'react-router-dom';
 import { Dimmer, Loader } from 'semantic-ui-react';
 
@@ -9,6 +10,7 @@ const Hospitals = ({ history }) => {
   const [error, setError] = useState(false);
   const [data, setData] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
+  const [bookedHospital, setBookedHospital] = useState('');
 
   useEffect(() => {
     get('hospitals')
@@ -91,6 +93,12 @@ const Hospitals = ({ history }) => {
         setSearchQuery={setSearchQuery}
         searchQuery={searchQuery}
         onSearch={onSearch}
+        setBookedHospital={setBookedHospital}
+      />
+      <BookingModal
+        open={bookedHospital !== ''}
+        onClose={() => setBookedHospital('')}
+        hospitalID={bookedHospital}
       />
     </div>
   );

@@ -13,7 +13,8 @@ const Container = ({
   setSearchQuery,
   searchQuery,
   error,
-  onSearch
+  onSearch,
+  setBookedHospital
 }) => {
   return (
     <Grid stackable columns={3}>
@@ -50,6 +51,7 @@ const Container = ({
                         redirect={redirect}
                         searchWords={searchQuery.split(' ')}
                         data={profile}
+                        setBookedHospital={setBookedHospital}
                       />
                     </Grid.Column>
                   )
