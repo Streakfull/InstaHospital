@@ -12,7 +12,7 @@ const { getDistanceMatrix } = require('../services/GoogleMaps');
 const viewAll = async (req, res) => {
   const { error } = viewValidation(req.body);
   if (error) return sendError(res, validation, error.details[0].message);
-  const { page = 0, perPage = 10 } = req.body;
+  const { page = 0, perPage = 30 } = req.body;
   const { count, rows } = await Hospital.findAndCountAll(
     { include: [{ model: Account, required: true }] },
     {

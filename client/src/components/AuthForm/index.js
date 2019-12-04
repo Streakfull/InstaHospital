@@ -1,10 +1,12 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import { Button, Form, Radio, Menu, Message, Input } from 'semantic-ui-react';
 import { post } from '../../services/axios';
 import { useDispatch } from 'react-redux';
-import { logIn } from '../../actions/authActions';
+import { logIn, setFireBaseToken } from '../../actions/authActions';
+import { withRouter } from 'react-router-dom';
+const firebase = require('firebase');
 
-const AuthForm = () => {
+const AuthForm = props => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [role, setRole] = useState('');
@@ -12,6 +14,32 @@ const AuthForm = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const dispatch = useDispatch();
+
+  const askPerm = accountID => {
+    firebase
+      .messaging()
+      .requestPermission()
+      .then(function(e = null) {
+        console.log('Granted!' + e);
+        return firebase.messaging().getToken();
+      })
+      .then(token => {
+        console.log(token, 'TOKENNNNN');
+        const url = 'subscribers/create';
+        post(url, { accountID, firebaseToken: token }).then(resp =>
+          console.log(resp)
+        );
+
+        console.log('Token:' + token + ' ' + accountID);
+        const localStorageItem = { token };
+        localStorage.setItem('fireBaseToken', JSON.stringify(localStorageItem));
+        dispatch(setFireBaseToken(token));
+      })
+      .catch(function(err) {
+        console.log(err, 'ERROR');
+        console.log('Error! :: ' + err);
+      });
+  };
 
   const onSubmit = () => {
     if (!role && tab === 'signup') {
@@ -26,7 +54,9 @@ const AuthForm = () => {
           .then(response => {
             dispatch(logIn(response));
             setLoading(false);
+            askPerm(response.accountID);
             localStorage.setItem('auth', JSON.stringify(response));
+            props.history.push(`/${response.role}/${response.accountID}`);
           })
           .catch(error => {
             setLoading(false);
@@ -36,7 +66,9 @@ const AuthForm = () => {
           .then(response => {
             dispatch(logIn(response));
             setLoading(false);
+            askPerm(response.accountID);
             localStorage.setItem('auth', JSON.stringify(response));
+            props.history.push(`/${response.role}/${response.accountID}`);
           })
           .catch(error => {
             setLoading(false);
@@ -113,4 +145,4 @@ const AuthForm = () => {
   );
 };
 
-export default AuthForm;
+export default withRouter(AuthForm);

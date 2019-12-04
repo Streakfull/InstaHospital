@@ -90,8 +90,11 @@ const createBooking = async (req, res) => {
   req.body.userID = req.user.accountID;
   req.body.status = PENDING;
   const booking = await Booking.create(req.body);
-  const user = await User.findOne({ where: { accountID: req.user.accountID } });
-  notify([req.body.hospitalID], userBooking(user.name));
+  const user = await User.findOne({
+    include: [{ model: Account }],
+    where: { accountID: req.user.accountID }
+  });
+  notify([req.body.hospitalID], userBooking(user.name, user.Account.img));
   return send(booking, res);
 };
 
@@ -110,6 +113,7 @@ const editBooking = async (req, res) => {
     const hospital = await checkHospital({
       body: { hospitalID: booking.hospitalID }
     });
+    console.log('HEREE', booking.userID, 'BEFORE NOTIFY');
     notify([booking.userID], bookingConfirmed(booking.id, hospital.img));
   }
   return send(booking, res);

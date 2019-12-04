@@ -12,7 +12,7 @@ const ActionSegment = ({
   memberType
 }) => {
   if (!myProfile || !memberType === 'user') return null;
-
+  const isUser = memberType === 'user';
   return (
     <Segment padded id="action-segment">
       {myProfile ? (
@@ -25,10 +25,12 @@ const ActionSegment = ({
             Change Password
             <Icon id="action-icon" color="black" name="lock" />
           </Header>
-          <Header size="small" onClick={createRoom} className="click">
-            Add a room
-            <Icon id="action-icon" color="green" name="plus" />
-          </Header>
+          {!isUser && (
+            <Header size="small" onClick={createRoom} className="click">
+              Add a room
+              <Icon id="action-icon" color="green" name="plus" />
+            </Header>
+          )}
           <Header
             size="small"
             color="red"
@@ -39,12 +41,6 @@ const ActionSegment = ({
             <Icon id="action-icon" color="red" name="close" />
           </Header>
         </div>
-      ) : null}
-      {memberType === 'user' ? (
-        <Header size="small" onClick={submitFeedback} className="click">
-          Feedback
-          <Icon id="action-icon" color="teal" name="reply" />
-        </Header>
       ) : null}
     </Segment>
   );

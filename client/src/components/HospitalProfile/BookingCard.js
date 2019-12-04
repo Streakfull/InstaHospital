@@ -11,7 +11,8 @@ const BookingCard = ({
   status,
   id,
   userID,
-  history
+  history,
+  myProfile
 }) => {
   const [confirmed, setConfirmed] = useState(status === 'Confirmed');
   const [rejected, setRejected] = useState(status === 'Rejected');
@@ -70,27 +71,29 @@ const BookingCard = ({
         </Card.Meta>
         <Card.Meta>Notes: {additionalNotes}</Card.Meta>
       </Card.Content>
-      <Card.Content extra textAlign="center">
-        <Button primary onClick={() => redirect()}>
-          Profile
-        </Button>
-        <Button
-          positive
-          disabled={confirmed}
-          onClick={confirm}
-          loading={confirmLoading}
-        >
-          Confirm
-        </Button>
-        <Button
-          negative
-          disabled={rejected}
-          onClick={reject}
-          loading={rejectLoading}
-        >
-          Reject
-        </Button>
-      </Card.Content>
+      {myProfile && (
+        <Card.Content extra textAlign="center">
+          <Button primary onClick={() => redirect()}>
+            Profile
+          </Button>
+          <Button
+            positive
+            disabled={confirmed}
+            onClick={confirm}
+            loading={confirmLoading}
+          >
+            Confirm
+          </Button>
+          <Button
+            negative
+            disabled={rejected}
+            onClick={reject}
+            loading={rejectLoading}
+          >
+            Reject
+          </Button>
+        </Card.Content>
+      )}
       {error && (
         <Card.Content extra textAlign="center" className="error">
           Something went wrong!

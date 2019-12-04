@@ -30,7 +30,7 @@ router.delete(
 );
 
 router.put(
-  'markAsRead',
+  '/markAsRead',
   passport.authenticate('jwt', { session: false }),
   wrap(markAsRead)
 );
