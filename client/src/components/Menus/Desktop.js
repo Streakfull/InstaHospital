@@ -3,6 +3,7 @@ import { Menu, Button, Icon, Image, Dropdown, Label } from 'semantic-ui-react';
 import './menus.css';
 import DesktopField from './DesktopField';
 import { Link } from 'react-router-dom';
+import Notifications from '../notifications/Notifications.js';
 
 const DesktopMenu = props => {
   const [isDropOpen, setOpenDropDown] = useState(false);
@@ -16,10 +17,17 @@ const DesktopMenu = props => {
   };
 
   const openNotif = () => {
-    setNotif(true);
+    console.log('HERE');
+    const { notificationCount, markAsRead } = props;
+    console.log(notificationCount, 'COUNT');
+    if (notificationCount > 0) {
+      console.log('HERE??');
+      markAsRead();
+    }
+    setNotif(!isNotifOpen);
   };
   const closeNotif = () => {
-    setNotif(true);
+    setNotif(false);
   };
   const {
     userInfo,
@@ -79,17 +87,17 @@ const DesktopMenu = props => {
                   </Label>
                 ) : null}
               </Icon>
-              {/* {userInfo && openNotif ? (
+              {userInfo && isNotifOpen ? (
                 <Notifications
                   isDesktop={true}
                   deleteNotifications={deleteNotifications}
                   close={closeNotif}
                   openNotif={openNotif}
                   addNotificationCount={addNotificationCount}
-                  userId={userInfo.id}
+                  userId={userInfo.accountID}
                   notifications={notifications}
                 />
-              ) : null} */}
+              ) : null}
             </Icon.Group>
             <Button onClick={logOut} inverted>
               Log out

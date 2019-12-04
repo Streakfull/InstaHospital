@@ -1,11 +1,20 @@
 import Axios from 'axios';
 
-const token = localStorage.getItem('auth');
-const parsedToken = token ? JSON.parse(token).token : null;
+const getToken = () => {
+  const token = localStorage.getItem('auth');
+  const parsedToken = token ? JSON.parse(token).token : null;
+  return `Bearer ${parsedToken}`;
+};
+
 const path = 'http://localhost:3000/api/';
 export const get = urlInput => {
   const url = `${path}${urlInput}`;
-  return Axios.get(url).then(response => {
+  return Axios.get(url, {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: getToken()
+    }
+  }).then(response => {
     return response.data.data;
   });
 };
@@ -16,7 +25,7 @@ const postData = (url = ``, data = {}) =>
     data,
     headers: {
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${parsedToken}`
+      Authorization: getToken()
     }
   });
 const putData = (url = ``, data = {}) =>
@@ -26,7 +35,7 @@ const putData = (url = ``, data = {}) =>
     data,
     headers: {
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${parsedToken}`
+      Authorization: getToken()
     }
   });
 const deleteData = (url = ``, data = {}) =>
@@ -36,7 +45,7 @@ const deleteData = (url = ``, data = {}) =>
     data,
     headers: {
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${parsedToken}`
+      Authorization: getToken()
     }
   });
 

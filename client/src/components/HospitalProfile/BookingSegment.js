@@ -36,6 +36,7 @@ const BookingSegment = ({ bookings, myProfile }) => {
                   status={booking.status}
                   id={booking.id}
                   userID={booking.userID}
+                  myProfile={myProfile}
                 />
               ))}
             </div>

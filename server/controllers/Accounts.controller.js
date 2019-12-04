@@ -41,7 +41,8 @@ const signUp = async (req, res) => {
   const account = await Account.create({
     email,
     password: hashedPassword,
-    role
+    role,
+    img: 'https://picsum.photos/400'
   });
   if (role === ROLES.USER)
     await User.create({

@@ -29,6 +29,7 @@ const deleteAll = async (req, res) => {
 
 const markAsRead = async (req, res) => {
   const { accountID } = req.user;
+  console.log(req.user, 'INSIDEEE');
   await Notification.update({ isRead: true }, { where: { accountID } });
   return send('ok', res);
 };

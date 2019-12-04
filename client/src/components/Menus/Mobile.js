@@ -10,6 +10,7 @@ import {
   Label
 } from 'semantic-ui-react';
 import MobileField from './MobileField';
+import Notifications from '../notifications/Notifications';
 
 const MobileMenu = ({
   markAsRead,
@@ -23,7 +24,8 @@ const MobileMenu = ({
   deleteNotifications,
   hideSidebar,
   redirectHome,
-  redirectProfile
+  redirectProfile,
+  addNotificationCount
 }) => {
   const [isNotifOpen, setNotifOpen] = useState(false);
 
@@ -34,7 +36,7 @@ const MobileMenu = ({
     setNotifOpen(!isNotifOpen);
   };
   const closeNotif = () => {
-    setNotifOpen(!isNotifOpen);
+    setNotifOpen(false);
   };
 
   return (
@@ -61,17 +63,16 @@ const MobileMenu = ({
                   </Label>
                 ) : null}
               </Icon>
-              {userInfo && isNotifOpen
-                ? null
-                : // <Notifications
-                  //   deleteNotifications={deleteNotifications}
-                  //   close={this.closeNotif}
-                  //   openNotif={openNotif}
-                  //   addNotificationCount={this.props.addNotificationCount}
-                  //   userId={userInfo.id}
-                  //   notifications={notifications}
-                  // />
-                  null}
+              {userInfo && isNotifOpen ? (
+                <Notifications
+                  deleteNotifications={deleteNotifications}
+                  close={closeNotif}
+                  openNotif={openNotif}
+                  addNotificationCount={addNotificationCount}
+                  userId={userInfo.accountID}
+                  notifications={notifications}
+                />
+              ) : null}
             </Icon.Group>
           ) : null}
 

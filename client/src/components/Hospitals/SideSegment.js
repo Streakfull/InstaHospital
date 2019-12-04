@@ -23,8 +23,8 @@ const SideSegment = ({
         icon="search"
       />
       <Divider hidden />
-      <Button primary onClick={onSearch}>
-        Search
+      <Button fluid primary onClick={onSearch}>
+        Go
       </Button>
     </Segment>
   );

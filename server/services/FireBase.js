@@ -25,6 +25,8 @@ const sendNotification = async (tokens, data) => {
     },
     headers
   });
+  console.log(tokens);
+  console.log(sent.data, 'SENT');
   // eslint-disable-next-line consistent-return
   return sent;
 };

@@ -47,6 +47,7 @@ const editProfileUser = async (req, res) => {
 const addConditions = async (req, res) => {
   const { error } = setConditionsValidation(req.body);
   if (error) return sendError(res, validation, error.details[0].message);
+  await UserConditions.destroy({ where: { userID: req.user.accountID } });
   const { conditions } = req.body;
   await Promise.all(
     conditions.map(condition =>

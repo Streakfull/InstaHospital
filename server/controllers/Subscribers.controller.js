@@ -11,14 +11,18 @@ const viewAll = async (req, res) => {
 const createSubscriber = async (req, res) => {
   const { error } = createValidation(req.body);
   if (error) return sendError(res, validation, error.details[0].message);
+  const isFound = await Subscriber.findOne({
+    where: { firebaseToken: req.body.firebaseToken }
+  });
+  if (isFound) return send('Subscribed', res);
   const subscriber = await Subscriber.create(req.body);
   return send(subscriber, res);
 };
 
 const deleteSubscriber = async (req, res) => {
-  const { firebaseTokn } = req.params;
-  await Subscriber.destroy({ where: { firebaseTokn } });
-  return res('ok', res);
+  const { firebaseToken } = req.params;
+  await Subscriber.destroy({ where: { firebaseToken } });
+  return send('ok', res);
 };
 
 module.exports = {

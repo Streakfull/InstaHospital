@@ -10,7 +10,7 @@ import './maps.css';
 
 export default compose(
   withProps({
-    googleMapURL: `https://maps.googleapis.com/maps/api/js?libraries=geometry,drawing,places&key=AIzaSyBjZcO-lMRLE7w9onAbHa3NrnkKuw3HSs0`,
+    googleMapURL: `https://maps.googleapis.com/maps/api/js?libraries=geometry,drawing,places&key=${process.env.REACT_APP_MAP_API_KEY}`,
     loadingElement: <div style={{ height: `100%` }}>Loading..</div>,
     containerElement: <div style={{ height: `100%` }} />,
     mapElement: <div style={{ height: `100%` }} />,

@@ -11,6 +11,12 @@ const reducer = (state = initialState, action) => {
     case 'LOG_OUT':
       newState.auth = false;
       break;
+    case 'SET_TOKEN':
+      newState.auth.firebaseToken = action.token;
+      break;
+    case 'REMOVE_TOKEN':
+      newState.auth.firebaseToken = '';
+      break;
     default:
       break;
   }

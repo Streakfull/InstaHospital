@@ -1,7 +1,7 @@
 const signUpNotification = {
   title: 'Welcome to instaHospital',
   body: 'Complete profile now',
-  link: 'completeProfile',
+  link: 'localhost:3001',
   img:
     'https://cdn.pixabay.com/photo/2016/03/31/14/37/check-mark-1292787__340.png',
   actionTitle: 'Visit'
@@ -19,7 +19,7 @@ const passwordRecovered = {
 const userBooking = (userName, img) => ({
   title: 'Booking received',
   body: `${userName} has made a booking`,
-  link: 'bookings',
+  link: 'localhost:3001',
   img:
     img ||
     'https://cdn.pixabay.com/photo/2016/03/31/14/37/check-mark-1292787__340.png',
@@ -29,7 +29,7 @@ const userBooking = (userName, img) => ({
 const bookingConfirmed = (bookingID, img) => ({
   title: 'Booking confirmation',
   body: `Booking number ${bookingID} has been confirmed`,
-  link: 'bookings',
+  link: 'localhost:3001',
   img:
     img ||
     'https://cdn.pixabay.com/photo/2016/03/31/14/37/check-mark-1292787__340.png',
@@ -39,7 +39,7 @@ const bookingConfirmed = (bookingID, img) => ({
 const userReview = img => ({
   title: 'Review received',
   body: 'A user has reviewed your profile',
-  link: 'profile',
+  link: 'localhost:3001',
   img:
     img ||
     'https://cdn.pixabay.com/photo/2016/03/31/14/37/check-mark-1292787__340.png',

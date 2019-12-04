@@ -14,7 +14,7 @@ const editValidation = request => {
 
 const searchValidation = request => {
   const schema = {
-    query: Joi.string(),
+    query: Joi.string().allow(''),
     lng: Joi.number(),
     lat: Joi.number()
   };
