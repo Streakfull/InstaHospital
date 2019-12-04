@@ -5,11 +5,14 @@ const {
 } = require('../validations/Bookings.validation');
 const {
   BOOKING_STATUS: { PENDING, CONFIRMED },
-  ROLES: { HOSPITAL }
+  ROLES: { HOSPITAL },
+  ROOM_STATUS: { AVAILABLE, BOOKED }
 } = require('../constants/enums');
 const Booking = require('../models/booking.model');
 const Account = require('../models/account.model');
 const User = require('../models/user.model');
+const Room = require('../models/room.model');
+const { noFreeRoom } = require('../constants/StatusCodes');
 
 const { validation, entityNotFound } = require('../constants/StatusCodes');
 const {
@@ -80,7 +83,7 @@ const checkHospital = async (req, res) => {
 const checkBooking = async (id, res) => {
   const booking = await Booking.findByPk(id);
   if (!booking) return sendError(res, entityNotFound);
-  return null;
+  return booking;
 };
 
 const createBooking = async (req, res) => {
@@ -102,20 +105,27 @@ const editBooking = async (req, res) => {
   const { error } = editValidation(req.body);
   if (error) return sendError(res, validation, error.details[0].message);
   const { id } = req.body;
-  await checkBooking(id, res);
+  const oldBooking = await checkBooking(id, res);
   delete req.body.id;
+
+  if (req.body.status === CONFIRMED) {
+    const hospital = await checkHospital({
+      body: { hospitalID: oldBooking.hospitalID }
+    });
+    const freeRoom = await Room.findOne({
+      where: { hospitalID: oldBooking.hospitalID, roomStatus: AVAILABLE }
+    });
+    console.log(freeRoom, 'FREE');
+    if (!freeRoom) return sendError(res, noFreeRoom);
+    await Room.update({ roomStatus: BOOKED }, { where: { id: freeRoom.id } });
+    notify([oldBooking.userID], bookingConfirmed(oldBooking.id, hospital.img));
+  }
   const result = await Booking.update(req.body, {
     where: { id },
     returning: true
   });
   const booking = result[1][0];
-  if (req.body.status === CONFIRMED) {
-    const hospital = await checkHospital({
-      body: { hospitalID: booking.hospitalID }
-    });
-    console.log('HEREE', booking.userID, 'BEFORE NOTIFY');
-    notify([booking.userID], bookingConfirmed(booking.id, hospital.img));
-  }
+
   return send(booking, res);
 };
 

@@ -58,6 +58,11 @@ const statusCodes = {
     code: '0009',
     message: 'This device is already subscribed',
     httpCode: 400
+  },
+  noFreeRoom: {
+    code: '0010',
+    message: 'No free rooms available',
+    httpCode: 400
   }
 };
 

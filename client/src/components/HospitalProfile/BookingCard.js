@@ -19,6 +19,7 @@ const BookingCard = ({
   const [confirmLoading, setConfirmLoading] = useState(false);
   const [rejectLoading, setRejectLoading] = useState(false);
   const [error, setError] = useState(false);
+  const [errorMsg, setErrorMsg] = useState('');
 
   const confirm = () => {
     setConfirmLoading(true);
@@ -34,6 +35,7 @@ const BookingCard = ({
       })
       .catch(error => {
         setError(true);
+        setErrorMsg(error.message);
         setConfirmLoading(false);
       });
   };
@@ -96,7 +98,7 @@ const BookingCard = ({
       )}
       {error && (
         <Card.Content extra textAlign="center" className="error">
-          Something went wrong!
+          {errorMsg}
         </Card.Content>
       )}
     </Card>
