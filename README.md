@@ -15,7 +15,7 @@ Each user will have a medical ID, that stores all important medical information,
  * To start the server separately run THE COMMAND
  * To start the client separately run THE COMMAND
  
- * Docker Compose
+ # Docker Compose
  * To start the entire project run docker-compose up --build
  * This will create 3 Images:
  * 1- PostgreSQL image
