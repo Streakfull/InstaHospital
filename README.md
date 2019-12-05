@@ -10,6 +10,18 @@ Each user will have a medical ID, that stores all important medical information,
  * Set the required environment variables (see below)
  * cd>server>npm install > npm start
  * cd>client>npm install > node index.js
+ # Docker
+ * There are 2 Docker files, one for the server and one for the client
+ * To start the server separately run THE COMMAND
+ * To start the client separately run THE COMMAND
+ 
+ * Docker Compose
+ * To start the entire project run docker-compose up --build
+ * This will create 3 Images:
+ * 1- PostgreSQL image
+ * 2- Server image
+ * 3- Client image
+ 
 # Client Dependencies
  * Axios to issue HTTP Requets
  * Dotenv to use env files
