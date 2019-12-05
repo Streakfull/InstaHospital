@@ -45,6 +45,7 @@ app.use(passport.initialize());
 require('./middleware/Passport')(passport);
 
 // DB Connection
+
 sequelize
   .authenticate()
   .then(() => {
@@ -53,6 +54,7 @@ sequelize
   .catch(err => {
     console.error('Unable to connect to postgres ', err);
   });
+
 // Routes here
 app.use('/api/accounts', Accounts);
 app.use('/api/conditions', Conditions);
@@ -67,7 +69,7 @@ app.use('/api/bookings', Bookings);
 app.use(errorHandler);
 
 // DB Sync
-const eraseDatabaseOnSync = false;
+const eraseDatabaseOnSync = true;
 sequelize
   .sync({ force: eraseDatabaseOnSync })
   .then(() => {
