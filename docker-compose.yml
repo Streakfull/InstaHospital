@@ -16,6 +16,7 @@ services:
       - '3001:3001'
     volumes:
       - ./client:/usr/src/app
+      - /usr/src/app/node_modules
     network_mode: 'host'
   backend:
     container_name: api
@@ -29,4 +30,5 @@ services:
       - '3000:3000'
     volumes:
       - ./server:/usr/src/app
+      - /usr/src/app/node_modules
     network_mode: 'host'
