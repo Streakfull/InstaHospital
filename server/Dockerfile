@@ -4,7 +4,13 @@ RUN mkdir -p /usr/src/app
 
 WORKDIR /usr/src/app
 
-EXPOSE 3000
+COPY package*.json ./
 
 # You can change this
+RUN npm install
+
+COPY . .
+
+EXPOSE 3000
+
 CMD [ "npm", "run", "dev" ]
