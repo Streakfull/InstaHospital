@@ -19,10 +19,12 @@ Hospital.init(
       type: Sequelize.STRING
     },
     lng: {
-      type: Sequelize.DOUBLE
+      type: Sequelize.DOUBLE,
+      defaultValue: 31.23095
     },
     lat: {
-      type: Sequelize.DOUBLE
+      type: Sequelize.DOUBLE,
+      defaultValue: 30.04943
     },
     address: {
       type: Sequelize.STRING

@@ -69,7 +69,7 @@ app.use('/api/bookings', Bookings);
 app.use(errorHandler);
 
 // DB Sync
-const eraseDatabaseOnSync = true;
+const eraseDatabaseOnSync = false;
 sequelize
   .sync({ force: eraseDatabaseOnSync })
   .then(() => {

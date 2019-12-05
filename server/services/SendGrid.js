@@ -46,8 +46,8 @@ const sendDirectEmail = request => {
 const setNotificationMail = (emails, data) => {
   let email = notificationMail.replace('notificationTitle', data.title);
   email = email.replace('notificationBody', data.body);
-  email = email.replace('LINKR', `LinkHere/${data.link}`);
-  email = email.replace('LINKR', `LinkHere/${data.link}`);
+  email = email.replace('LINKR', data.link);
+  email = email.replace('LINKR', data.link);
   const requests = emails.map(userEmail => ({
     from: 'notification@instaHospital.com',
     to: userEmail,

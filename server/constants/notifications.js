@@ -10,7 +10,7 @@ const signUpNotification = {
 const passwordRecovered = {
   title: 'Passowrd recovered',
   body: 'You can now login using your new password',
-  link: 'login',
+  link: 'localhost:3001',
   img:
     'https://cdn.pixabay.com/photo/2016/03/31/14/37/check-mark-1292787__340.png',
   actionTitle: 'Visit'
