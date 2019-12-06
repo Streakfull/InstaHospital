@@ -16,7 +16,7 @@ Each user will have a medical ID, that stores all important medical information,
 # Docker
 
 - There are 2 Docker files, one for the server and one for the client
-- To start the server separately run docker run -it -p 3001:3001 philip/api
+- To start the server separately run docker run -it -p 3000:3000 philip/api
 - To start the client separately run docker run -it -p 3001:3001 philip/web
 
 # Docker Compose
